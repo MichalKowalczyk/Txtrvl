@@ -1,0 +1,22 @@
+.tailWrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-48px);
+  width: 100%;
+
+  .tail {
+    display: inline-block;
+    transform: translateY(110%);
+  }
+
+  &.isOpen {
+    opacity: 1;
+    transform: translateY(0px);
+
+    .tail {
+      transform: translateY(0%);
+    }
+  }
+}
