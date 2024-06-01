@@ -30,13 +30,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "sass-loader": "^14.2.1"
   },
   "peerDependencies": {
     "react": ">= 16.3.0",
     "react-dom": ">= 16.3.0"
   },
   "devDependencies": {
-    "sass-loader": "^14.2.1",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
