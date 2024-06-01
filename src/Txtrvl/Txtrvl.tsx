@@ -1,5 +1,6 @@
 import "./Txtrvl.scss";
 import { useEffect, useRef, useState } from "react";
+import React from "react";
 import useIntersectionObserver from "../tools/useIntersectionObserver";
 import { convertToTrailsBlocks } from "../tools/setTrailsBlocks";
 
