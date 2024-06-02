@@ -12,6 +12,13 @@ export default {
       exports: 'named',
       sourcemap: true,
       strict: false
+    },
+    {
+      file: pkg.module,
+      format: 'esm',
+      exports: 'named',
+      sourcemap: true,
+      strict: false
     }
   ],
   plugins: [sass({ insert: true, output: 'dist/styles.css', outputStyle: 'compressed' }),
