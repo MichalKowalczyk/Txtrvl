@@ -1,6 +1,6 @@
 {
   "name": "txtrvl",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Txtrvl - Text Reveal react library",
   "repository": "MichalKowalczyk/Txtrvl",
   "license": "MIT",
@@ -16,10 +16,10 @@
     "react-component"
   ],
   "author": {
-    "name": "Codeebo Michał Kowalczyk",
-    "email": "hello@codeebo.com"
+    "name": "Codeebo Michał Kowalczyk & SPNM Szymon P. Nowak Mieszkiełło",
+    "email": "contact@txtrvl.com"
   },
-  "homepage": "https://github.com/MichalKowalczyk/Txtrvl",
+  "homepage": "https://txtrvl.com",
   "engines": {
     "node": ">=14",
     "npm": ">=6"
