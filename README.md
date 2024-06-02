@@ -26,13 +26,11 @@ This component is well-designed, efficient, customizable, and fully responsive. 
 - ✅ Excellent performance & smooth vibe
 - ✅ TypeScript included
 
-
 # Installation
 To use the Txtrvl component, install it in your React project width `npm`:
 ```bash
 npm install txtrvl
 ```
-
 
 ## Usage
 
@@ -40,3 +38,11 @@ npm install txtrvl
 ___
 ## Props
 ![image](https://github.com/MichalKowalczyk/Txtrvl/assets/17525378/50faf7cc-77d8-4acd-8d63-c364ba77d522)
+
+
+## Credits
+Designed by [SPNM](https://www.spnm.pl) Szymon P. Nowak Mieszkiełło
+Developed by [Codeebo](https://codeebo.pl) Michał Kowalczyk
+
+If you like what you see, write to us and let's build or destroy something together.
+[contact@txtrvl.com](mailto:contact@txtrvl.com)
