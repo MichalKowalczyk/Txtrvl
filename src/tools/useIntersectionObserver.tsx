@@ -11,7 +11,7 @@ export interface IntersectionObserverProps {
 }
 
 const useIntersectionObserver = (props: IntersectionObserverProps, targetRef: React.RefObject<HTMLDivElement>) => {
-  const { offsetY = 0, resetPolicy = "bothReset", delay = 0, threshold = 0.5, disabled = false } = props;
+  const { offsetY = 0, resetPolicy = "both", delay = 0, threshold = 0.5, disabled = false } = props;
   const [isIntersecting, setIntersecting] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,8 @@ const useIntersectionObserver = (props: IntersectionObserverProps, targetRef: Re
             setTimeout(() => handleVisibleChange(true), delay);
           }
         } else if (resetPolicy === "above") {
-          if (window.scrollY <= (targetRef.current?.offsetTop ?? 0)) {
+          const isAboveViewport = entry.boundingClientRect.top >= window.innerHeight;
+          if (isAboveViewport) {
             setTimeout(() => handleVisibleChange(isVisible), delay);
           }
         } else {
