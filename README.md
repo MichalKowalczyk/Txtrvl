@@ -41,8 +41,8 @@ ___
 
 
 ## Credits
-Designed by [SPNM](https://www.spnm.pl) Szymon P. Nowak Mieszkiełło
-Developed by [Codeebo](https://codeebo.pl) Michał Kowalczyk
-
 If you like what you see, write to us and let's build or destroy something together.
 [contact@txtrvl.com](mailto:contact@txtrvl.com)
+
+#### Designed by [SPNM](https://www.spnm.pl) Szymon P. Nowak Mieszkiełło
+#### Developed by [Codeebo](https://codeebo.pl) Michał Kowalczyk
