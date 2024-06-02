@@ -1,6 +1,9 @@
 # Txtrvl - about the Component
 This repository contains a pre-built React component designed for text animation.
 
+## [DEMO PAGE](https://txtrvl.com/)
+
+
 ## Motivation
 ### Many other existing libraries and components face various issues:
 
