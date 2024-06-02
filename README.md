@@ -30,7 +30,7 @@ This component is well-designed, efficient, customizable, and fully responsive. 
 # Installation
 To use the Txtrvl component, install it in your React project width `npm`:
 ```bash
-npm install Txtrvl
+npm install txtrvl
 ```
 
 
