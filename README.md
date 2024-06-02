@@ -39,5 +39,4 @@ npm install Txtrvl
 
 ___
 ## Props
-![image](https://github.com/MichalKowalczyk/txtrvl/assets/17525378/e28a5515-ef89-431b-9b4c-b669de3107e6)
-.
+![image](https://github.com/MichalKowalczyk/Txtrvl/assets/17525378/50faf7cc-77d8-4acd-8d63-c364ba77d522)
