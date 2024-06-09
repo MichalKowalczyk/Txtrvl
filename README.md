@@ -1,7 +1,7 @@
 # Txtrvl - about the Component
 This repository contains a pre-built React component designed for text animation.
 
-[![NPM Version](https://img.shields.io/npm/v/txtrvl?logo=npm&color=red&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftxtrvl)](https://www.npmjs.com/package/txtrvl) ![Static Badge](https://img.shields.io/badge/License-MIT-purple) ![Static Badge](https://img.shields.io/badge/React-%3E%3D%2016.17.0-blue?logo=react) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/michalkowalczyk/Txtrvl/npm-publish.yml)
+[![NPM Version](https://img.shields.io/npm/v/txtrvl?logo=npm&color=e02a1d&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftxtrvl)](https://www.npmjs.com/package/txtrvl) ![Static Badge](https://img.shields.io/badge/License-MIT-purple) ![Static Badge](https://img.shields.io/badge/React-%3E%3D%2016.17.0-blue?logo=react) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/michalkowalczyk/Txtrvl/npm-publish.yml)
 
 ## [DEMO PAGE](https://txtrvl.com/)
 
