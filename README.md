@@ -1,5 +1,5 @@
 # Txtrvl - about the Component
-This repository contains a pre-built React component designed for text animation.
+Txtrvl is a pre-built React component designed for seamless text animation. It addresses common issues faced by other libraries such as disruptions in animation due to text changes, resolution variations, and font size adjustments. Key features include support for text content changes, resolution adjustments, font size changes, line wrapping, easy style customization, excellent performance and TypeScript support.
 
 [![NPM Version](https://img.shields.io/npm/v/txtrvl?logo=npm&color=e02a1d&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftxtrvl)](https://www.npmjs.com/package/txtrvl) ![Static Badge](https://img.shields.io/badge/license-MIT-purple) ![Static Badge](https://img.shields.io/badge/react-%3E%3D%2016.17.0-61dbfb?logo=react) ![Static Badge](https://img.shields.io/badge/lang-typescript-0b52b0?logo=typescript) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/michalkowalczyk/Txtrvl/npm-publish.yml)
 
