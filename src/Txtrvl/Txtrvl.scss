@@ -1,22 +1,108 @@
-.tailWrapper {
+﻿.trailsWrapper {
   position: relative;
-  overflow: hidden;
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(-48px);
-  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
 
-  .tail {
-    display: inline-block;
-    transform: translateY(110%);
+  .trailsText {
+    white-space: pre-wrap;
+    overflow-wrap: inherit;
   }
 
-  &.isOpen {
-    opacity: 1;
-    transform: translateY(0px);
+  .trailsContent {
+    position: relative;
+  }
 
-    .tail {
-      transform: translateY(0%);
-    }
+  .trailsContent,
+  .trailsOverlay,
+  .tailWrapper,
+  .tail,
+  .trailsCopy {
+    text-decoration: inherit;
+  }
+
+  &.isMeasured .trailsSource {
+    opacity: 0;
+  }
+
+  .trailsOverlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .tailWrapper {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .tail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateY(105%);
+    transition-property: transform, opacity, filter;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .trailsCopy {
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+
+  // Keep the full paragraph's wrapping while painting only this row's text.
+  .trailsContext {
+    visibility: hidden;
+  }
+
+  &.isPreparing .tail {
+    transition-property: none;
+  }
+
+  &[data-animation="fade"] .tail {
+    transform: none;
+  }
+
+  &[data-animation="slide-up"] .tail {
+    transform: translateY(65%);
+  }
+
+  &[data-animation="slide-left"] .tail {
+    transform: translateX(1.5em);
+  }
+
+  &[data-animation="blur"] .tail {
+    transform: translateY(25%);
+    filter: blur(0.2em);
+  }
+
+  // The isolated row's blur must be allowed to spread beyond its line box.
+  &[data-animation="blur"] .tailWrapper {
+    overflow: visible;
+  }
+
+  &[data-animation="scale"] .tail {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+
+  .tailWrapper.isOpen .tail {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trailsWrapper.isMeasured .trailsSource {
+    opacity: 1;
+  }
+
+  .trailsWrapper .trailsOverlay {
+    display: none;
   }
 }

@@ -1,8 +1,9 @@
-import "./Txtrvl.scss";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
+﻿import "./Txtrvl.scss";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useIntersectionObserver from "../tools/useIntersectionObserver";
-import { convertToTrailsBlocks } from "../tools/setTrailsBlocks";
+import useTextLines from "../tools/useTextLines";
+
+const useBrowserLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 interface ManualTriggerConfig {
   isVisible: boolean;
@@ -15,96 +16,70 @@ interface ScrollTriggerConfig {
   delay?: number;
 }
 
+export type TxtrvlAnimation = "reveal" | "fade" | "slide-up" | "slide-left" | "blur" | "scale";
+
 export interface TxtrvlProps {
   text: string;
+  animation?: TxtrvlAnimation;
   duration?: number;
   delayPerRow?: number;
-  style?: React.CSSProperties | undefined;
+  style?: React.CSSProperties;
   className?: string;
   onChange?: (isVisible: boolean) => void;
   scrollTrigger?: ScrollTriggerConfig;
   manualTrigger?: ManualTriggerConfig;
 }
 
-const Txtrvl = (props: TxtrvlProps) => {
-  const { text, manualTrigger, duration = 1000, delayPerRow: delay = 200, className = "", style, onChange, scrollTrigger = { offsetY: 0, disabled: false, resetPolicy: "above", delay: 0, threshold: 0.5 } } = props;
+const Txtrvl = ({
+  text,
+  animation = "reveal",
+  manualTrigger,
+  duration = 1000,
+  delayPerRow = 200,
+  className = "",
+  style,
+  onChange,
+  scrollTrigger = {},
+}: TxtrvlProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const sourceRef = useRef<HTMLDivElement>(null);
+  const lines = useTextLines(sourceRef, text, className, style);
+  const [animationReady, setAnimationReady] = useState(false);
+  const observerIsVisible = useIntersectionObserver({ ...scrollTrigger, resetPolicy: scrollTrigger.resetPolicy ?? "above", onChange }, ref);
 
-  const ref = useRef<any>();
-  const [trails, setTrails] = useState([] as Array<string>);
-  const [isOpen, setIsOpen] = useState(false);
+  useBrowserLayoutEffect(() => {
+    setAnimationReady(false);
+    let frame = window.requestAnimationFrame(() => {
+      frame = window.requestAnimationFrame(() => setAnimationReady(true));
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [text, animation]);
 
-  const observerIsVisible = useIntersectionObserver(
-    {
-      disabled: scrollTrigger.disabled,
-      onChange: onChange,
-      threshold: scrollTrigger.threshold,
-      offsetY: scrollTrigger.offsetY,
-      delay: scrollTrigger.delay,
-      resetPolicy: scrollTrigger.resetPolicy,
-    },
-    ref
-  );
-
-  let interval: NodeJS.Timeout | undefined;
-
-  useEffect(() => {
-    if (interval !== undefined) clearInterval(interval);
-    setIsOpen(false);
-
-    if (ref) {
-      setTrails(convertToTrailsBlocks(ref, text));
-      setIsOpen(true);
-
-      interval = setInterval(() => {
-        setTrails(convertToTrailsBlocks(ref, text));
-        setIsOpen(true);
-      }, delay);
-    }
-
-    return () => {
-      if (interval !== undefined) clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
-
-  const isRevealed = (isOpen: boolean, observerIsVisible: boolean, manualTrigger?: ManualTriggerConfig, scrollTrigger?: ScrollTriggerConfig) => {
-    if (scrollTrigger?.disabled && manualTrigger) {
-      return isOpen && manualTrigger.isVisible;
-    } else if (scrollTrigger && !scrollTrigger.disabled && manualTrigger) {
-      return isOpen && (observerIsVisible || manualTrigger?.isVisible);
-    } else if (scrollTrigger && !scrollTrigger.disabled) {
-      return isOpen && observerIsVisible;
-    } else {
-      return false;
-    }
-  };
+  const isRevealed = animationReady && (scrollTrigger.disabled
+    ? manualTrigger?.isVisible ?? false
+    : observerIsVisible || manualTrigger?.isVisible === true);
 
   return (
-    <div ref={ref} className={`trailsWrapper ${className}`} style={style}>
-      {trails
-        ? trails.map((trail: string, index: number) => {
-            return (
-              <span
-                key={index}
-                className={`tailWrapper ${isRevealed(isOpen, observerIsVisible, manualTrigger, scrollTrigger) ? "isOpen" : ""}`}
-                style={{
-                  transitionDelay: (isRevealed(isOpen, observerIsVisible, manualTrigger, scrollTrigger) ? delay * index : 0) + "ms",
-                  transitionDuration: duration + "ms",
-                }}
-              >
-                <span
-                  className={`tail`}
-                  style={{
-                    transitionDelay: delay * index + "ms",
-                    transitionDuration: duration + "ms",
-                  }}
-                >
-                  {" " + trail.replace("|", "\u00A0").replace("|", "\u00A0") + " "}
-                </span>
-              </span>
-            );
-          })
-        : null}
+    <div ref={ref} className={`trailsWrapper${lines.length ? " isMeasured" : ""}${animationReady ? "" : " isPreparing"} ${className}`} style={style} data-animation={animation}>
+      <div ref={sourceRef} className="trailsText trailsContent">
+        <span className="trailsSource">{text}</span>
+        <div className="trailsOverlay" aria-hidden="true">
+          {lines.map((line, index) => (
+            <div key={index} className={`tailWrapper${isRevealed ? " isOpen" : ""}`} style={{ top: line.top, height: line.height }}>
+              <div className="tail" style={{
+                transitionDelay: `${isRevealed ? Math.max(0, delayPerRow) * index : 0}ms`,
+                transitionDuration: `${Math.max(0, duration)}ms`,
+              }}>
+                <div className="trailsText trailsCopy" style={{ top: -line.top }}>
+                  <span className="trailsContext">{text.slice(0, line.start)}</span>
+                  <span className="trailsLine">{text.slice(line.start, line.end)}</span>
+                  <span className="trailsContext">{text.slice(line.end)}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
