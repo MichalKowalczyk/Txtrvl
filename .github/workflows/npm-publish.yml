@@ -28,10 +28,16 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org/
           package-manager-cache: false
-      - name: Validate release version
+      - name: Validate release version and OIDC
         run: |
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs';
+          for (const key of ['ACTIONS_ID_TOKEN_REQUEST_URL', 'ACTIONS_ID_TOKEN_REQUEST_TOKEN']) {
+            if (!process.env[key]) {
+              throw new Error('GitHub OIDC is unavailable. Check id-token: write permissions for this job.');
+            }
+          }
+          console.log(`OIDC workflow: ${process.env.GITHUB_WORKFLOW_REF}`);
           const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'));
           const tag = process.env.RELEASE_TAG;
           if (tag !== version && tag !== `v${version}`) {
@@ -44,4 +50,4 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Publish to npm with OIDC
-        run: npm publish
+        run: npm publish --loglevel=verbose
