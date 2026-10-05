@@ -68,6 +68,23 @@ export const Responsive: Story = {
   },
 };
 
+export const ScrollContainer: Story = {
+  args: {
+    text: responsiveText,
+    scrollTrigger: { disabled: false, resetPolicy: "above" },
+    manualTrigger: { isVisible: false },
+    style: { width: "100%", fontSize: "1.5rem", lineHeight: 1.5 },
+  },
+  render: (args) => React.createElement(
+    "div",
+    { style: { width: "min(100%, 32rem)", height: 200, overflow: "auto", padding: "1rem", border: "1px solid #ccc" } },
+    React.createElement("p", null, "Scroll inside this preview to reveal the text. Scroll back to reset."),
+    React.createElement("div", { style: { height: 200 } }),
+    React.createElement(Txtrvl, args),
+    React.createElement("div", { style: { height: 200 } })
+  ),
+};
+
 function AnimationSwitcherDemo(args: TxtrvlProps) {
   const [animation, setAnimation] = useState<Animation>(args.animation ?? "reveal");
   const [isVisible, setIsVisible] = useState(false);

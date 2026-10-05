@@ -1,0 +1,28 @@
+# Txtrvl
+
+> A responsive text animation library for React, built around the named Txtrvl component.
+
+Install with `npm install txtrvl`. Import with `import { Txtrvl } from "txtrvl"`.
+The `text` prop accepts a string. The optional `animation` prop selects `reveal`,
+`fade`, `slide-up`, `slide-left`, `blur`, or `scale`; `reveal` is the default.
+Timing values are in milliseconds: `duration` defaults to 1000 and `delayPerRow`
+to 200. Text follows browser line wrapping and updates with container resizing
+and font loading. Reduced-motion preferences are respected.
+
+## Documentation
+
+- [README and API](https://raw.githubusercontent.com/MichalKowalczyk/Txtrvl/master/README.md): Installation, examples, options, Next.js usage, and performance limitations.
+- [Component and public types](https://raw.githubusercontent.com/MichalKowalczyk/Txtrvl/master/src/Txtrvl/Txtrvl.tsx): Source of truth for TxtrvlProps and TxtrvlAnimation.
+- [Package metadata](https://raw.githubusercontent.com/MichalKowalczyk/Txtrvl/master/package.json): Version, peer dependencies, and module entry points.
+- [Interactive examples](https://txtrvl.com/): Demo website. Refer to the README and public types for the current API.
+
+## Usage notes
+
+Automatic scroll triggering is enabled by default. For manual playback alone,
+use `scrollTrigger={{ disabled: true }}` and `manualTrigger={{ isVisible }}`.
+`offsetY` changes the vertical detection bounds. An optional ancestor DOM element
+can be passed as `scrollTrigger.root`. Next.js entry points include `"use client"`;
+callbacks and interactive state belong in a Client Component.
+
+Do not use a default import, `animationType`, or `speed`: they are not part of
+the public API. Apply text color and typography through `style` or `className`.

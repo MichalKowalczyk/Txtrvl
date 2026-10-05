@@ -1,4 +1,6 @@
-﻿import "./Txtrvl.scss";
+"use client";
+
+import "./Txtrvl.scss";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useIntersectionObserver from "../tools/useIntersectionObserver";
 import useTextLines from "../tools/useTextLines";
@@ -9,6 +11,7 @@ interface ManualTriggerConfig {
   isVisible: boolean;
 }
 interface ScrollTriggerConfig {
+  root?: Element | null;
   offsetY?: number;
   disabled?: boolean;
   resetPolicy?: "no-reset" | "above" | "both";
@@ -40,7 +43,7 @@ const Txtrvl = ({
   style,
   onChange,
   scrollTrigger = {},
-}: TxtrvlProps) => {
+}: TxtrvlProps): React.ReactElement => {
   const ref = useRef<HTMLDivElement>(null);
   const sourceRef = useRef<HTMLDivElement>(null);
   const lines = useTextLines(sourceRef, text, className, style);
@@ -70,10 +73,12 @@ const Txtrvl = ({
                 transitionDelay: `${isRevealed ? Math.max(0, delayPerRow) * index : 0}ms`,
                 transitionDuration: `${Math.max(0, duration)}ms`,
               }}>
-                <div className="trailsText trailsCopy" style={{ top: -line.top }}>
-                  <span className="trailsContext">{text.slice(0, line.start)}</span>
+                <div className={`trailsText trailsCopy${line.context ? "" : " trailsIsolated"}`} style={line.context
+                  ? { top: -line.top }
+                  : { top: line.textTop - line.top, left: line.left }}>
+                  {line.context && <span className="trailsContext">{text.slice(0, line.start)}</span>}
                   <span className="trailsLine">{text.slice(line.start, line.end)}</span>
-                  <span className="trailsContext">{text.slice(line.end)}</span>
+                  {line.context && <span className="trailsContext">{text.slice(line.end)}</span>}
                 </div>
               </div>
             </div>

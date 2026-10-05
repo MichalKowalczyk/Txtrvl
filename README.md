@@ -4,7 +4,7 @@ Txtrvl is a text animation library for React, built around a ready-to-use `Txtrv
 
 The component animates text one visual line at a time. Lines are measured from the browser's layout and update when the available width, text, or fonts change.
 
-[![NPM Version](https://img.shields.io/npm/v/txtrvl?logo=npm&color=e02a1d&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftxtrvl)](https://www.npmjs.com/package/txtrvl) ![Static Badge](https://img.shields.io/badge/license-MIT-purple) ![React >= 16.17.0](https://img.shields.io/badge/react-%3E%3D%2016.17.0-61dbfb?logo=react) ![Static Badge](https://img.shields.io/badge/lang-typescript-0b52b0)
+[![NPM Version](https://img.shields.io/npm/v/txtrvl?logo=npm&color=e02a1d&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftxtrvl)](https://www.npmjs.com/package/txtrvl) ![Static Badge](https://img.shields.io/badge/license-MIT-purple) ![React >= 16.14.0](https://img.shields.io/badge/react-%3E%3D%2016.14.0-61dbfb?logo=react) ![Static Badge](https://img.shields.io/badge/lang-typescript-0b52b0) [![AI-friendly docs](https://img.shields.io/badge/AI--friendly-docs-8b5cf6)](./llms.txt)
 
 ## [DEMO PAGE](https://txtrvl.com/)
 
@@ -65,6 +65,20 @@ export function Heading() {
 ```
 
 The default animation is `reveal`. Available modes are `reveal`, `fade`, `slide-up`, `slide-left`, `blur`, and `scale`. Each mode uses the same duration and delay between visual lines.
+
+## Next.js and module formats
+
+The published entry points include `"use client"`, so the component can be imported from a Next.js App Router page. Keep callback props and interactive state in a Client Component.
+
+```tsx
+import { Txtrvl } from "txtrvl";
+
+export default function Page() {
+  return <Txtrvl text="Responsive text animation in Next.js." animation="blur" />;
+}
+```
+
+Both ESM (`import { Txtrvl } from "txtrvl"`) and CommonJS (`const { Txtrvl } = require("txtrvl")`) are supported, with declarations for each module format. Styles are included automatically; `txtrvl/styles.css` is also available for an explicit stylesheet import.
 
 ## Switch animations
 
@@ -159,7 +173,30 @@ Set typography through `style` or `className`, including your web font. When the
 
 `TxtrvlProps` is exported for TypeScript consumers.
 
+## Scroll-trigger behavior
+
+The trigger uses `IntersectionObserver` to detect intersection with the viewport or an optional `scrollTrigger.root` element. Clipping by scrollable ancestors is taken into account, including text taller than the visible scroll area.
+
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `root` | `null` | Viewport by default; an ancestor DOM element can be supplied as the scroll root. |
+| `threshold` | `0.5` | Fraction of the maximum visible area that fits in the viewport and clipping containers. |
+| `offsetY` | `0` | Expands or shrinks the root vertically, in pixels. Horizontal bounds stay unchanged. |
+| `delay` | `0` | Delay in milliseconds before applying a visibility change; cancelled if the condition changes. |
+| `resetPolicy` | `"above"` | Reset when the text goes below the visible area. `"both"` resets on either exit; `"no-reset"` keeps revealed text visible. |
+| `disabled` | `false` | Disables automatic triggering. Use `manualTrigger` to control playback instead. |
+
+For short, fully fitting text, a threshold of `0.5` means half its area. Taller text uses the part that fits in the visible container, so it can still start animating. Intersection describes geometry; it does not detect whether another element covers the text.
+
+## Performance and typography
+
+Ordinary text is rendered once for accessible content and once across the visual line layers. Line boundaries are found with binary searches, and measurement updates are batched with `requestAnimationFrame`. Inherited typography updates through ancestor classes, inline styles, and direction attributes also trigger remeasurement.
+
+Some text needs its full paragraph context to preserve layout, including RTL scripts, emoji, tabs, justification, text transformations, and hyphenation. These cases retain a paragraph copy per line and are more expensive for long passages. Use animated text selectively for large amounts of content; blur also adds rendering work.
+
 ## Development
+
+Use Node.js 22 or 24 to develop and build the library. Build tools such as `sass-loader` are development dependencies and are not installed as runtime dependencies of Txtrvl.
 
 ```bash
 npm run storybook

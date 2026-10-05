@@ -1,11 +1,27 @@
 {
   "name": "txtrvl",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Txtrvl - A text animation library with a ready-to-use React component",
   "repository": "MichalKowalczyk/Txtrvl",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.esm.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "keywords": [
     "react",
     "parallel animation",
@@ -32,12 +48,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "sass-loader": "^14.2.1"
-  },
   "peerDependencies": {
-    "react": ">= 16.17.0",
-    "react-dom": ">= 16.17.0"
+    "react": ">=16.14.0",
+    "react-dom": ">=16.14.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.6",
@@ -60,11 +73,13 @@
     "rollup-plugin-sass": "^1.12.22",
     "rollup-plugin-typescript2": "^0.36.0",
     "sass": "^1.69.5",
+    "sass-loader": "^14.2.1",
     "storybook": "^7.6.19",
     "typescript": "^4.9.5"
   },
   "files": [
-    "dist"
+    "dist",
+    "llms.txt"
   ],
   "type": "module"
 }

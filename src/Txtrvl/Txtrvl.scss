@@ -20,6 +20,13 @@
     text-decoration: inherit;
   }
 
+  .trailsCopy.trailsIsolated {
+    width: max-content;
+    white-space: pre;
+    text-align: left;
+    text-indent: 0;
+  }
+
   &.isMeasured .trailsSource {
     opacity: 0;
   }
