@@ -1,22 +1,47 @@
-# Build and publish the package to npm when a release is created.
+# Build and publish a release tag to npm using Trusted Publishing (OIDC).
 
 name: Node.js Package
 
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to publish (e.g. v1.1.8)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ github.event.release.tag_name || inputs.tag }}
       - uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+      - name: Validate release version
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'));
+          const tag = process.env.RELEASE_TAG;
+          if (tag !== version && tag !== `v${version}`) {
+            throw new Error(`Release tag ${tag} does not match package version ${version}.`);
+          }
+          console.log(`Publishing ${name}@${version} from ${tag}`);
+          NODE
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
       - run: npm ci
       - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - name: Publish to npm with OIDC
+        run: npm publish
